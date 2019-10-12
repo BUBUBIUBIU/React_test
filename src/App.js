@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person';
 
 // 这个App就是我们的component，
@@ -67,12 +68,17 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',  // 字体颜色还是要白色的哈
       font: 'inherit',
       boder: '1px solid blue',
       padding: '8px',
       // 这个属性让鼠标hover在按钮上时呈手状
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     }
 
     let persons = null;
@@ -92,23 +98,41 @@ class App extends Component {
           })}
         </div> 
       );
+
+      style.backgroundColor = 'red';
+      // 因为key是string，所以我们不用.符号
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];
+    if (this.state.persons.length <= 2){
+      classes.push('red');
+    }
+    if (this.state.persons.length <= 1){
+      classes.push('bold');
     }
 
     return (
-      // 这看上去是HTML，其实是JSX
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        {/* onClick里的method千万不要加(),我们要的只是method的reference, 不然的话在react
-        render这段jsx代码的时候会直接call这个method */}
-        <button 
-          style = {style}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button> 
-          {persons}
-      </div>
+       // 这看上去是HTML，其实是JSX
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className={classes.join(' ')}>This is really working!</p>
+          {/* onClick里的method千万不要加(),我们要的只是method的reference, 不然的话在react
+          render这段jsx代码的时候会直接call这个method */}
+          <button 
+            style = {style}
+            onClick={this.togglePersonsHandler}>Toggle Persons</button> 
+            {persons}
+        </div>
+      </StyleRoot>
     );
     // return React.createElement('div', null, React.createElement('h1', null, 'Does it work now?'));
   }
 }
 
-export default App;
+// high order component（神奇的写法）,别担心这里export出来的还是一个component
+export default Radium(App) ;
