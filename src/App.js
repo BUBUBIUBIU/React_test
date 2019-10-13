@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from'./App.css';
 
 import Person from './Person/Person';
 
@@ -98,19 +98,19 @@ class App extends Component {
       style.backgroundColor = 'red';
     }
 
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2){
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     if (this.state.persons.length <= 1){
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
 
     return (
        // 这看上去是HTML，其实是JSX
-        <div className="App">
+        <div className={ classes.App }>
           <h1>Hi, I'm a React App</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
+          <p className={assignedClasses.join(' ')}>This is really working!</p>
           {/* onClick里的method千万不要加(),我们要的只是method的reference, 不然的话在react
           render这段jsx代码的时候会直接call这个method */}
           <button 
