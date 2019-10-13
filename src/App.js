@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
+
 import Person from './Person/Person';
 
 // 这个App就是我们的component，
@@ -74,11 +74,7 @@ class App extends Component {
       boder: '1px solid blue',
       padding: '8px',
       // 这个属性让鼠标hover在按钮上时呈手状
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
+      cursor: 'pointer'
     }
 
     let persons = null;
@@ -100,11 +96,6 @@ class App extends Component {
       );
 
       style.backgroundColor = 'red';
-      // 因为key是string，所以我们不用.符号
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
     }
 
     const classes = [];
@@ -117,7 +108,6 @@ class App extends Component {
 
     return (
        // 这看上去是HTML，其实是JSX
-      <StyleRoot>
         <div className="App">
           <h1>Hi, I'm a React App</h1>
           <p className={classes.join(' ')}>This is really working!</p>
@@ -128,11 +118,10 @@ class App extends Component {
             onClick={this.togglePersonsHandler}>Toggle Persons</button> 
             {persons}
         </div>
-      </StyleRoot>
     );
     // return React.createElement('div', null, React.createElement('h1', null, 'Does it work now?'));
   }
 }
 
 // high order component（神奇的写法）,别担心这里export出来的还是一个component
-export default Radium(App) ;
+export default App;
