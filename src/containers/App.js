@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from'./App.css';
-
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons'
 
 // 这个App就是我们的component，
 class App extends Component {
@@ -67,35 +66,23 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',  // 字体颜色还是要白色的哈
-      font: 'inherit',
-      boder: '1px solid blue',
-      padding: '8px',
-      // 这个属性让鼠标hover在按钮上时呈手状
-      cursor: 'pointer'
-    }
 
     let persons = null;
+    let btnClass = '';
 
     if (this.state.showPersons) {
       // 神奇的一幕，只要一个括号就能让代码变成JSX
       persons = (
         <div>
-          {/* tips， arrow function 有两个arguments时要用小括号括起来 */}
-          {this.state.persons.map((person, index) => {
-            return <Person 
-              click={() => this.deletePersonHandler(index)}
-              name={person.name}
-              age={person.age}
-              key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })}
+          <Persons 
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler}
+          />
         </div> 
       );
-
-      style.backgroundColor = 'red';
+      // btnClass其实是string
+      btnClass = classes.Red;
     }
 
     const assignedClasses = [];
@@ -114,7 +101,7 @@ class App extends Component {
           {/* onClick里的method千万不要加(),我们要的只是method的reference, 不然的话在react
           render这段jsx代码的时候会直接call这个method */}
           <button 
-            style = {style}
+            className={btnClass}
             onClick={this.togglePersonsHandler}>Toggle Persons</button> 
             {persons}
         </div>
