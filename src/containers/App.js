@@ -5,7 +5,12 @@ import Cockpit from '../components/Cockpit/Cockpit';
 
 // 这个App就是我们的component，
 class App extends Component {
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor');
+  }
 
+  // 这种我们最早用的写法，是比较高级的用法，其实react已经帮我们建好constructor了和call super（props)了
   state = {
      persons: [
        { id: 'asfa1', name: 'Max', age: '28'},
@@ -14,6 +19,12 @@ class App extends Component {
      ],
      otherState: 'some other value',
      showPersons: false
+  }
+
+  // 这个method前面要放static
+  static getDerivedStateFromProps(props, state){
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
   }
 
   /**  switchNameHandler = (newName) => {
@@ -27,6 +38,10 @@ class App extends Component {
       ]
     })
   } */
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
@@ -67,7 +82,7 @@ class App extends Component {
   }
 
   render() {
-
+    console.log('[App.js] render');
     let persons = null;
 
     if (this.state.showPersons) {
