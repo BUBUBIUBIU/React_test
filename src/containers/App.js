@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from'./App.css';
-import Persons from '../components/Persons/Persons'
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 // 这个App就是我们的component，
 class App extends Component {
@@ -68,42 +69,25 @@ class App extends Component {
   render() {
 
     let persons = null;
-    let btnClass = '';
 
     if (this.state.showPersons) {
-      // 神奇的一幕，只要一个括号就能让代码变成JSX
-      persons = (
-        <div>
-          <Persons 
+      // 神奇的一幕，只要一个括号就能让代码变成JSX;有时候甚至不用括号
+      persons = <Persons 
             persons={this.state.persons}
             clicked={this.deletePersonHandler}
             changed={this.nameChangedHandler}
-          />
-        </div> 
-      );
-      // btnClass其实是string
-      btnClass = classes.Red;
-    }
-
-    const assignedClasses = [];
-    if (this.state.persons.length <= 2){
-      assignedClasses.push(classes.red);
-    }
-    if (this.state.persons.length <= 1){
-      assignedClasses.push(classes.bold);
+          />;
     }
 
     return (
        // 这看上去是HTML，其实是JSX
         <div className={ classes.App }>
-          <h1>Hi, I'm a React App</h1>
-          <p className={assignedClasses.join(' ')}>This is really working!</p>
-          {/* onClick里的method千万不要加(),我们要的只是method的reference, 不然的话在react
-          render这段jsx代码的时候会直接call这个method */}
-          <button 
-            className={btnClass}
-            onClick={this.togglePersonsHandler}>Toggle Persons</button> 
-            {persons}
+          <Cockpit 
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            clicked={this.togglePersonsHandler}/>
+          {persons}
         </div>
     );
     // return React.createElement('div', null, React.createElement('h1', null, 'Does it work now?'));
