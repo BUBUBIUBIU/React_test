@@ -39,8 +39,22 @@ class App extends Component {
     })
   } */
 
+  // componentWillMount(){
+  //   console.log('[App.js] componentWillMount');
+  // }
+
   componentDidMount() {
     console.log('[App.js] componentDidMount');
+  }
+
+  shouldComponentUpdate() {
+    console.log('[App.js] shouldComponentUpdate');
+    // 必须要return东西
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
   }
 
   nameChangedHandler = (event, id) => {
