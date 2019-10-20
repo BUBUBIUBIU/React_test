@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import classes from'./App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../components/hoc/WithClass';
+// withClass不再是component了，所以名称首字母要改小写
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Aux';
 
 // 这个App就是我们的component，
 class App extends Component {
@@ -112,14 +114,13 @@ class App extends Component {
 
     return (
        // 这看上去是HTML，其实是JSX
-        <WithClass classes={ classes.App }>
+        <Aux>
           <button 
             onClick={() => { this.setState( {showCockpit : false} )}}
             >
               Remove Cockpit
           </button>
-          {
-            this.state.showCockpit ? (
+          {this.state.showCockpit ? (
             <Cockpit 
               title={this.props.appTitle}
               showPersons={this.state.showPersons}
@@ -128,11 +129,11 @@ class App extends Component {
             />
             ) : null}
           {persons}
-        </WithClass>
+        </Aux>
     );
     // return React.createElement('div', null, React.createElement('h1', null, 'Does it work now?'));
   }
 }
 
 // high order component（神奇的写法）,别担心这里export出来的还是一个component
-export default App;
+export default withClass(App, classes.App);
