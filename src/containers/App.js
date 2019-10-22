@@ -5,6 +5,7 @@ import Cockpit from '../components/Cockpit/Cockpit';
 // withClass不再是component了，所以名称首字母要改小写
 import withClass from '../hoc/withClass';
 import Aux from '../hoc/Aux';
+import AuthContext from '../context/auth-context';
 
 // 这个App就是我们的component，
 class App extends Component {
@@ -23,7 +24,8 @@ class App extends Component {
      otherState: 'some other value',
      showPersons: false,
      showCockpit: true,
-     changeCounter: 0
+     changeCounter: 0,
+     authenticated: false
   }
 
   // 这个method前面要放static
@@ -105,6 +107,10 @@ class App extends Component {
     this.setState({showPersons: !doesShow});
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  };
+
   render() {
     console.log('[App.js] render');
     let persons = null;
@@ -115,6 +121,7 @@ class App extends Component {
             persons={this.state.persons}
             clicked={this.deletePersonHandler}
             changed={this.nameChangedHandler}
+            isAuthenticated={this.state.authenticated}
           />;
     }
 
@@ -126,15 +133,21 @@ class App extends Component {
             >
               Remove Cockpit
           </button>
-          {this.state.showCockpit ? (
-            <Cockpit 
-              title={this.props.appTitle}
-              showPersons={this.state.showPersons}
-              personsLength={this.state.persons.length}
-              clicked={this.togglePersonsHandler}
-            />
-            ) : null}
-          {persons}
+          <AuthContext.Provider 
+            value={{ 
+              authenticated: this.state.authenticated,
+              login: this.loginHandler 
+            }}>
+            {this.state.showCockpit ? (
+              <Cockpit 
+                title={this.props.appTitle}
+                showPersons={this.state.showPersons}
+                personsLength={this.state.persons.length}
+                clicked={this.togglePersonsHandler}
+              />
+              ) : null}
+            {persons}
+          </AuthContext.Provider>
         </Aux>
     );
     // return React.createElement('div', null, React.createElement('h1', null, 'Does it work now?'));
