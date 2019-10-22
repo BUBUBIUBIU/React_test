@@ -16,13 +16,14 @@ class App extends Component {
   // 这种我们最早用的写法，是比较高级的用法，其实react已经帮我们建好constructor了和call super（props)了
   state = {
      persons: [
-       { id: 'asfa1', name: 'Max', age: '28'},
-       { id: 'vasdf1', name: 'Manu', age: '29'},
-       { id: 'asdf11', name: 'Stephanie', age: '26'}
+       { id: 'asfa1', name: 'Max', age: 28},
+       { id: 'vasdf1', name: 'Manu', age: 29},
+       { id: 'asdf11', name: 'Stephanie', age: 26}
      ],
      otherState: 'some other value',
      showPersons: false,
-     showCockpit: true
+     showCockpit: true,
+     changeCounter: 0
   }
 
   // 这个method前面要放static
@@ -80,8 +81,13 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person; 
 
-    this.setState({ persons: persons })
-  }
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: this.state.changeCounter + 1
+      }; 
+    });
+  };
 
   deletePersonHandler = (personIndex) => {
     // 这里再次解释一下更改const的原因，这个persons里其实是指向array的reference，我们本质上没有更改persons
